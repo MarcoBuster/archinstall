@@ -482,13 +482,13 @@ class Filesystem():
 
 	def use_entire_disk(self, root_filesystem_type='ext4'):
 		log(f"Using and formatting the entire {self.blockdevice}.", level=LOG_LEVELS.Debug)
-		self.add_partition('primary', start='1MiB', end='513MiB', format='fat32')
+		self.add_partition('primary', start='1MiB', end='2500MiB', format='fat32')
 		self.set_name(0, 'EFI')
 		self.set(0, 'boot on')
 		# TODO: Probably redundant because in GPT mode 'esp on' is an alias for "boot on"?
 		# https://www.gnu.org/software/parted/manual/html_node/set.html
 		self.set(0, 'esp on')
-		self.add_partition('primary', start='513MiB', end='100%')
+		self.add_partition('primary', start='2500MiB', end='100%')
 
 		self.blockdevice.partition[0].filesystem = 'vfat'
 		self.blockdevice.partition[1].filesystem = root_filesystem_type
